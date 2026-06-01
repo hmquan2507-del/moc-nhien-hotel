@@ -35,7 +35,7 @@ export default function BookingSearch({
   return (
     <section className="mx-auto max-w-7xl px-4 pb-12 md:px-8">
       <form
-        action="/"
+        action="/#rooms"
         className="rounded-[1.5rem] border border-navy/10 bg-white p-4 shadow-soft md:rounded-[2rem] md:p-5"
       >
         <div className="grid gap-4 md:grid-cols-[1fr_0.8fr_0.9fr_auto]">
