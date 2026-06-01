@@ -30,9 +30,12 @@ const checkinTimeOptions = [
   "23:00",
 ];
 
-function getTodayInputValue() {
-  return new Intl.DateTimeFormat("en-CA", {
+function getTodayDisplayValue() {
+  return new Intl.DateTimeFormat("vi-VN", {
     timeZone: "Asia/Ho_Chi_Minh",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   }).format(new Date());
 }
 
@@ -47,7 +50,7 @@ export default function BookingFormClient({
   const [selectedDuration, setSelectedDuration] =
     useState<DurationKey>(initialDuration);
 
-  const today = getTodayInputValue();
+  const today = getTodayDisplayValue();
 
   const selectedRoom = useMemo(() => {
     return rooms.find((room) => room.id === selectedRoomId) ?? rooms[0];
@@ -226,10 +229,11 @@ export default function BookingFormClient({
                   </label>
 
                   <input
-                    type="date"
+                    type="text"
+                    inputMode="numeric"
                     defaultValue={today}
-                    min={today}
-                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    placeholder="dd/mm/yyyy"
+                    className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition placeholder:text-muted focus:border-champagne"
                   />
                 </div>
 
