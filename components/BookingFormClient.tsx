@@ -30,6 +30,12 @@ const checkinTimeOptions = [
   "23:00",
 ];
 
+function getTodayInputValue() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  }).format(new Date());
+}
+
 export default function BookingFormClient({
   initialRoomId,
   initialDuration,
@@ -40,6 +46,8 @@ export default function BookingFormClient({
   const [selectedRoomId, setSelectedRoomId] = useState(initialRoomId);
   const [selectedDuration, setSelectedDuration] =
     useState<DurationKey>(initialDuration);
+
+  const today = getTodayInputValue();
 
   const selectedRoom = useMemo(() => {
     return rooms.find((room) => room.id === selectedRoomId) ?? rooms[0];
@@ -62,7 +70,7 @@ export default function BookingFormClient({
               <p className="font-luxury text-xl font-bold leading-none">
                 {hotelInfo.brandName}
               </p>
-              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.22em] text-muted">
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
                 Đặt phòng trực tuyến
               </p>
             </div>
@@ -79,7 +87,7 @@ export default function BookingFormClient({
 
       <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
         <div className="mb-7">
-          <p className="text-sm font-black uppercase tracking-[0.25em] text-champagne">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.25em]">
             Xác nhận đặt phòng
           </p>
 
@@ -106,7 +114,7 @@ export default function BookingFormClient({
               <div className="p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-champagne">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-champagne">
                       Phòng đang đặt
                     </p>
 
@@ -138,7 +146,7 @@ export default function BookingFormClient({
                       key={feature}
                       className="flex items-center gap-2 text-sm font-semibold text-navy"
                     >
-                      <span className="h-1.5 w-1.5 rounded-full bg-champagne" />
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-champagne" />
                       {feature}
                     </div>
                   ))}
@@ -162,6 +170,7 @@ export default function BookingFormClient({
 
                 <div className="mt-5 rounded-2xl bg-softbeige p-4">
                   <p className="text-sm font-black">Chi tiết đặt phòng</p>
+
                   <div className="mt-3 space-y-2 text-sm leading-6 text-muted">
                     <p>
                       Loại phòng:{" "}
@@ -169,12 +178,14 @@ export default function BookingFormClient({
                         {selectedRoom.name}
                       </span>
                     </p>
+
                     <p>
                       Thời lượng:{" "}
                       <span className="font-black text-navy">
                         {durationLabel}
                       </span>
                     </p>
+
                     <p>
                       Giá tạm tính:{" "}
                       <span className="font-black text-navy">
@@ -188,7 +199,7 @@ export default function BookingFormClient({
           </aside>
 
           <div className="order-1 rounded-[2rem] bg-white p-5 shadow-soft md:p-8 lg:order-2">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-champagne">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.22em]">
               Thông tin khách hàng
             </p>
 
@@ -197,44 +208,37 @@ export default function BookingFormClient({
             </h2>
 
             <form className="mt-7 grid gap-4">
-              <div>
-                <label className="mb-2 block text-sm font-black text-navy">
-                  Họ và tên
-                </label>
-                <input
-                  placeholder="Ví dụ: Nguyễn Minh Anh"
-                  className="min-h-[56px] w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
-                />
-              </div>
+              <FormInput
+                label="Họ và tên"
+                placeholder="Ví dụ: Nguyễn Minh Anh"
+              />
 
-              <div>
-                <label className="mb-2 block text-sm font-black text-navy">
-                  Số điện thoại
-                </label>
-                <input
-                  type="tel"
-                  inputMode="tel"
-                  placeholder="Ví dụ: 0789 564 888"
-                  className="min-h-[56px] w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
-                />
-              </div>
+              <FormInput
+                label="Số điện thoại"
+                placeholder="Ví dụ: 0789 564 888"
+                type="tel"
+              />
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-black text-navy">
-                    Ngày nhận phòng
+                    Ngày nhận
                   </label>
+
                   <input
                     type="date"
-                    className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    defaultValue={today}
+                    min={today}
+                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                   />
                 </div>
 
                 <div>
                   <label className="mb-2 block text-sm font-black text-navy">
-                    Giờ nhận phòng
+                    Giờ nhận
                   </label>
-                  <select className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne">
+
+                  <select className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne">
                     {checkinTimeOptions.map((time) => (
                       <option key={time} value={time}>
                         {time}
@@ -247,14 +251,15 @@ export default function BookingFormClient({
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-black text-navy">
-                    Thời lượng lưu trú
+                    Thời lượng
                   </label>
+
                   <select
                     value={selectedDuration}
                     onChange={(event) =>
                       setSelectedDuration(event.target.value as DurationKey)
                     }
-                    className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                   >
                     {durationOptions.map((item) => (
                       <option key={item.value} value={item.value}>
@@ -268,10 +273,11 @@ export default function BookingFormClient({
                   <label className="mb-2 block text-sm font-black text-navy">
                     Loại phòng
                   </label>
+
                   <select
                     value={selectedRoomId}
                     onChange={(event) => setSelectedRoomId(event.target.value)}
-                    className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                   >
                     {rooms.map((room) => (
                       <option key={room.id} value={room.id}>
@@ -308,6 +314,7 @@ export default function BookingFormClient({
                 <label className="mb-2 block text-sm font-black text-navy">
                   Yêu cầu đặc biệt
                 </label>
+
                 <textarea
                   rows={4}
                   placeholder="Ví dụ: Tôi muốn nhận phòng lúc 20:00, cần phòng yên tĩnh..."
@@ -335,7 +342,7 @@ export default function BookingFormClient({
 
               <button
                 type="button"
-                className="min-h-[56px] cursor-pointer rounded-full bg-navy px-6 text-base font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95"
+                className="h-14 cursor-pointer rounded-full bg-navy px-6 text-base font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95"
               >
                 Xác nhận đặt phòng
               </button>
@@ -344,7 +351,7 @@ export default function BookingFormClient({
                 href={hotelInfo.zaloLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[56px] rounded-full border border-navy/15 bg-white px-6 py-4 text-center text-base font-black text-navy transition hover:border-champagne hover:bg-champagne/10"
+                className="rounded-full border border-navy/15 bg-white px-6 py-4 text-center text-base font-black text-navy transition hover:border-champagne hover:bg-champagne/10"
               >
                 Chat Zalo nếu cần hỗ trợ
               </a>
@@ -378,5 +385,28 @@ export default function BookingFormClient({
         </div>
       </div>
     </main>
+  );
+}
+
+function FormInput({
+  label,
+  placeholder,
+  type = "text",
+}: {
+  label: string;
+  placeholder: string;
+  type?: string;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-black text-navy">{label}</label>
+
+      <input
+        type={type}
+        inputMode={type === "tel" ? "tel" : undefined}
+        placeholder={placeholder}
+        className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
+      />
+    </div>
   );
 }

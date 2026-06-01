@@ -19,11 +19,19 @@ const checkinTimeOptions = [
   "23:00",
 ];
 
+function getTodayInputValue() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  }).format(new Date());
+}
+
 export default function BookingSearch({
   duration,
 }: {
   duration: DurationKey;
 }) {
+  const today = getTodayInputValue();
+
   return (
     <section className="mx-auto max-w-7xl px-4 pb-12 md:px-8">
       <form
@@ -33,13 +41,14 @@ export default function BookingSearch({
         <div className="grid gap-4 md:grid-cols-[1fr_0.8fr_0.9fr_auto]">
           <div>
             <label className="mb-2 block text-sm font-black text-navy">
-              Ngày nhận phòng
+              Ngày nhận
             </label>
 
             <input
               type="date"
               name="checkinDate"
-              defaultValue="2026-06-01"
+              defaultValue={today}
+              min={today}
               className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
             />
           </div>

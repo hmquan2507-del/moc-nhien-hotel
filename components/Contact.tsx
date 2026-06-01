@@ -28,9 +28,17 @@ const checkinTimeOptions = [
   "23:00",
 ];
 
+function getTodayInputValue() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  }).format(new Date());
+}
+
 export default function Contact() {
   const [selectedRoomId, setSelectedRoomId] = useState(rooms[0].id);
   const [selectedDuration, setSelectedDuration] = useState<DurationKey>("2h");
+
+  const today = getTodayInputValue();
 
   const selectedRoom = useMemo(() => {
     return rooms.find((room) => room.id === selectedRoomId) ?? rooms[0];
@@ -51,7 +59,7 @@ export default function Contact() {
       <div className="overflow-hidden rounded-[2rem] border border-navy/10 bg-white shadow-soft">
         <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="bg-softbeige p-5 md:p-10 lg:p-14">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-champagne">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.22em]">
               Đặt phòng nhanh
             </p>
 
@@ -60,8 +68,8 @@ export default function Contact() {
             </h2>
 
             <p className="mt-5 max-w-xl text-sm leading-7 text-muted md:text-base md:leading-8">
-              Trên điện thoại, khách chỉ cần chọn ngày, giờ, thời lượng và loại
-              phòng. Giá tạm tính sẽ hiện ngay để dễ quyết định.
+              Khách chỉ cần chọn ngày, giờ, thời lượng và loại phòng. Giá tạm
+              tính sẽ hiện ngay để dễ quyết định trước khi gửi yêu cầu.
             </p>
 
             <div className="mt-7 overflow-hidden rounded-[2rem] border border-navy/10 bg-white shadow-sm">
@@ -75,7 +83,7 @@ export default function Contact() {
               <div className="p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-champagne">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-champagne">
                       Phòng đang chọn
                     </p>
 
@@ -107,7 +115,7 @@ export default function Contact() {
                       key={feature}
                       className="flex items-center gap-2 text-sm font-semibold text-navy"
                     >
-                      <span className="h-1.5 w-1.5 rounded-full bg-champagne" />
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-champagne" />
                       {feature}
                     </div>
                   ))}
@@ -143,7 +151,7 @@ export default function Contact() {
 
           <div className="p-5 md:p-10 lg:p-14">
             <div className="mx-auto max-w-xl">
-              <p className="text-sm font-black uppercase tracking-[0.22em] text-champagne">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.22em]">
                 Form đặt phòng
               </p>
 
@@ -163,7 +171,7 @@ export default function Contact() {
 
                   <input
                     placeholder="Ví dụ: Nguyễn Minh Anh"
-                    className="min-h-[56px] w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
+                    className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
                   />
                 </div>
 
@@ -176,28 +184,30 @@ export default function Contact() {
                     type="tel"
                     inputMode="tel"
                     placeholder="Ví dụ: 0789 564 888"
-                    className="min-h-[56px] w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
+                    className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
                   />
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-black text-navy">
-                      Ngày nhận phòng
+                      Ngày nhận
                     </label>
 
                     <input
                       type="date"
-                      className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                      defaultValue={today}
+                      min={today}
+                      className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-black text-navy">
-                      Giờ nhận phòng
+                      Giờ nhận
                     </label>
 
-                    <select className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne">
+                    <select className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne">
                       {checkinTimeOptions.map((time) => (
                         <option key={time} value={time}>
                           {time}
@@ -209,7 +219,7 @@ export default function Contact() {
 
                 <div>
                   <label className="mb-2 block text-sm font-black text-navy">
-                    Thời lượng lưu trú
+                    Thời lượng
                   </label>
 
                   <select
@@ -217,7 +227,7 @@ export default function Contact() {
                     onChange={(event) =>
                       setSelectedDuration(event.target.value as DurationKey)
                     }
-                    className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                   >
                     {durationOptions.map((item) => (
                       <option key={item.value} value={item.value}>
@@ -229,13 +239,13 @@ export default function Contact() {
 
                 <div>
                   <label className="mb-2 block text-sm font-black text-navy">
-                    Loại phòng quan tâm
+                    Loại phòng
                   </label>
 
                   <select
                     value={selectedRoomId}
                     onChange={(event) => setSelectedRoomId(event.target.value)}
-                    className="min-h-[56px] w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
+                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
                   >
                     {rooms.map((room) => (
                       <option key={room.id} value={room.id}>
@@ -281,7 +291,7 @@ export default function Contact() {
 
                 <button
                   type="button"
-                  className="min-h-[56px] cursor-pointer rounded-full bg-navy px-6 text-base font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95"
+                  className="h-14 cursor-pointer rounded-full bg-navy px-6 text-base font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95"
                 >
                   Gửi yêu cầu đặt phòng
                 </button>
