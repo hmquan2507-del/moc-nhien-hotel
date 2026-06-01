@@ -22,9 +22,7 @@ export const heroData = {
     "Không gian lưu trú gọn gàng, riêng tư, phù hợp cho khách nghỉ ngắn, qua đêm, công tác hoặc du lịch tại khu vực Liên Chiểu.",
   primaryCta: "Xem phòng & giá",
   secondaryCta: "Chat Zalo đặt phòng",
-  image:
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1600&auto=format&fit=crop",
-  locations: ["Liên Chiểu", "Xuân Thiều", "Bà Nà Hills", "Vịnh Đà Nẵng"],
+  image: "/images/hotel-front.webp",
   stats: [
     {
       value: "Từ 120K",
@@ -40,6 +38,7 @@ export const heroData = {
     },
   ],
 };
+
 export type DurationKey = "2h" | "3h" | "overnight" | "day";
 
 export const durationOptions = [
@@ -72,15 +71,15 @@ export const durationOptions = [
 export const benefits = [
   {
     icon: "📍",
-    title: "Địa chỉ dễ tìm",
+    title: "Vị trí dễ tìm",
     description:
       "Tọa lạc tại 18 Phạm Văn Ngôn, Hoà Khánh Bắc, Liên Chiểu, thuận tiện di chuyển trong khu vực phía Tây Bắc Đà Nẵng.",
   },
   {
     icon: "🛏️",
-    title: "Phòng nghỉ gọn gàng",
+    title: "Phòng nghỉ sạch sẽ",
     description:
-      "Không gian lưu trú đơn giản, thoải mái, phù hợp cho khách cần nghỉ ngơi, đi công tác hoặc ở lại qua đêm.",
+      "Không gian lưu trú gọn gàng, riêng tư, phù hợp cho khách cần nghỉ ngơi, đi công tác hoặc lưu trú qua đêm.",
   },
   {
     icon: "🚗",
@@ -102,9 +101,8 @@ export const rooms = [
     name: "Phòng Tiêu Chuẩn",
     shortName: "Tiêu Chuẩn",
     description:
-      "Phòng gọn gàng, riêng tư, phù hợp cho khách nghỉ ngắn, đi công tác hoặc lưu trú tiết kiệm tại khu vực Liên Chiểu.",
-    image:
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1400&auto=format&fit=crop",
+      "Phòng gọn gàng, sạch sẽ, phù hợp cho khách nghỉ ngắn, lưu trú tiết kiệm hoặc đi công tác tại khu vực Liên Chiểu.",
+    image: "/images/room-standard.webp",
     available: 1,
     prices: {
       "2h": 129000,
@@ -119,21 +117,20 @@ export const rooms = [
       day: 350000,
     },
     features: [
-      "Smart TV / Youtube",
       "Giường êm",
       "Điều hòa",
-      "Máy lạnh / nước nóng",
-      "Nhà vệ sinh trong phòng",
+      "WiFi",
+      "Nước nóng",
+      "Nhà vệ sinh riêng",
     ],
   },
   {
-    id: "phong-thang-hoa",
-    name: "Phòng Thăng Hoa",
-    shortName: "Thăng Hoa",
+    id: "phong-doi-tien-nghi",
+    name: "Phòng Đôi Tiện Nghi",
+    shortName: "Đôi Tiện Nghi",
     description:
-      "Không gian riêng tư, tiện nghi hơn, phù hợp cho cặp đôi hoặc khách muốn trải nghiệm thoải mái hơn.",
-    image:
-      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1400&auto=format&fit=crop",
+      "Phòng giường đôi rộng rãi hơn, không gian riêng tư, phù hợp cho cặp đôi hoặc khách muốn nghỉ ngơi thoải mái hơn.",
+    image: "/images/room-double.webp",
     available: 2,
     prices: {
       "2h": 149000,
@@ -148,22 +145,21 @@ export const rooms = [
       day: 400000,
     },
     features: [
-      "Máy chiếu / Youtube",
-      "Giường êm",
-      "Ghế thư giãn",
-      "Đồ chơi",
-      "Máy sấy tóc",
+      "Giường đôi",
+      "Không gian riêng tư",
+      "Điều hòa",
+      "WiFi",
+      "Nước nóng",
       "Phòng tắm riêng",
     ],
   },
   {
-    id: "phong-vip",
-    name: "Phòng VIP",
-    shortName: "VIP",
+    id: "phong-gia-dinh",
+    name: "Phòng Gia Đình",
+    shortName: "Gia Đình",
     description:
-      "Phòng rộng hơn, thiết kế nổi bật, phù hợp cho khách cần không gian riêng tư, thoải mái và trải nghiệm tốt hơn.",
-    image:
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=1400&auto=format&fit=crop",
+      "Phòng có nhiều giường, phù hợp cho gia đình nhỏ hoặc nhóm bạn cần không gian lưu trú rộng rãi và tiện nghi hơn.",
+    image: "/images/room-family.webp",
     available: 1,
     prices: {
       "2h": 199000,
@@ -178,12 +174,12 @@ export const rooms = [
       day: 500000,
     },
     features: [
+      "Nhiều giường",
       "Không gian rộng",
-      "Bồn tắm",
-      "Máy chiếu",
       "Điều hòa",
+      "WiFi",
       "Nước nóng",
-      "Hỗ trợ đặt nhanh",
+      "Phòng tắm riêng",
     ],
   },
 ];
@@ -254,12 +250,17 @@ export const faqs = [
   {
     question: "Khách sạn có tiện ích gì?",
     answer:
-      "Các tiện ích nổi bật gồm WiFi, chỗ đậu xe, thang máy, phòng riêng và hỗ trợ đặt phòng nhanh.",
+      "Các tiện ích nổi bật gồm WiFi, chỗ đậu xe, thang máy, phòng riêng, nước nóng và hỗ trợ đặt phòng nhanh.",
   },
   {
     question: "Có thể đặt phòng qua Zalo không?",
     answer:
       "Có. Khách có thể gọi lễ tân hoặc liên hệ Zalo 0789 564 888 để hỏi phòng trống và đặt phòng.",
+  },
+  {
+    question: "Website có hiển thị giá chính xác không?",
+    answer:
+      "Giá trên website là giá tham khảo theo từng thời lượng lưu trú. Khách sạn sẽ xác nhận lại phòng trống và giá chính xác qua điện thoại hoặc Zalo.",
   },
 ];
 
