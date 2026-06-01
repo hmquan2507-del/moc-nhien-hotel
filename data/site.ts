@@ -16,9 +16,10 @@ export const hotelInfo = {
 
 export const heroData = {
   badge: "Khách sạn tại Liên Chiểu, Đà Nẵng",
-  title: "Mộc Nhiên Hotel nghỉ ngơi thoải mái, giá hợp lý tại Đà Nẵng",
+  title: "Mộc Nhiên Hotel",
+  subtitle: "Nghỉ ngơi thoải mái, đặt phòng nhanh, giá hợp lý.",
   description:
-    "Không gian lưu trú gọn gàng, tiện nghi cơ bản đầy đủ, phù hợp cho khách du lịch, khách công tác, cặp đôi và gia đình nhỏ khi đến khu vực Liên Chiểu.",
+    "Không gian lưu trú gọn gàng, riêng tư, phù hợp cho khách nghỉ ngắn, qua đêm, công tác hoặc du lịch tại khu vực Liên Chiểu.",
   primaryCta: "Xem phòng & giá",
   secondaryCta: "Chat Zalo đặt phòng",
   image:
@@ -26,12 +27,12 @@ export const heroData = {
   locations: ["Liên Chiểu", "Xuân Thiều", "Bà Nà Hills", "Vịnh Đà Nẵng"],
   stats: [
     {
-      value: "Từ 300K",
-      label: "Ngày đêm",
+      value: "Từ 120K",
+      label: "Thuê theo giờ",
     },
     {
-      value: "120K",
-      label: "Giờ đầu",
+      value: "Từ 300K",
+      label: "Ngày đêm",
     },
     {
       value: "24/7",
@@ -39,7 +40,6 @@ export const heroData = {
     },
   ],
 };
-
 export type DurationKey = "2h" | "3h" | "overnight" | "day";
 
 export const durationOptions = [
