@@ -17,10 +17,10 @@ const siteUrl = "https://moc-nhien-hotel.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
-  title: {
-    default: "Mộc Nhiên Hotel | Khách sạn tại Liên Chiểu, Đà Nẵng",
-    template: "%s | Mộc Nhiên Hotel",
-  },
+ title: {
+  default: "Mộc Nhiên Hotel",
+  template: "%s | Mộc Nhiên Hotel",
+},
 
   description:
     "Mộc Nhiên Hotel tại Liên Chiểu, Đà Nẵng. Xem phòng, chọn thời lượng lưu trú, xem giá tạm tính và đặt phòng nhanh qua Zalo hoặc điện thoại.",
@@ -70,11 +70,10 @@ export const metadata: Metadata = {
       "Xem phòng, chọn thời lượng lưu trú, xem giá tạm tính và đặt phòng nhanh qua Zalo hoặc điện thoại.",
     images: ["/opengraph-image.png"],
   },
-
- icons: {
-  icon: "/icon",
-  shortcut: "/icon",
-  apple: "/icon",
+icons: {
+  icon: "/favicon.png",
+  shortcut: "/favicon.png",
+  apple: "/favicon.png",
 },
 
   robots: {

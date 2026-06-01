@@ -1,65 +1,71 @@
+import Image from "next/image";
+import Link from "next/link";
 import { hotelInfo } from "@/data/site";
+
+const navItems = [
+  { label: "Phòng", href: "#rooms" },
+  { label: "Ưu đãi", href: "#offers" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Liên hệ", href: "#contact" },
+];
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
-        <a href="#" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy text-base font-black text-white shadow-sm">
-            M
+    <header className="sticky top-0 z-50 border-b border-navy/10 bg-white/95 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
+        <Link
+          href="/"
+          className="flex min-w-0 items-center gap-3 transition hover:opacity-90"
+        >
+          <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm">
+            <Image
+              src="/images/moc-nhien-logo.png"
+              alt="Mộc Nhiên Hotel"
+              fill
+              className="object-contain p-1.5"
+              priority
+            />
           </div>
 
-          <div>
-            <p className="font-luxury text-xl font-bold leading-none text-navy">
+          <div className="hidden min-w-0 sm:block">
+            <p className="font-luxury text-xl font-black leading-none text-navy md:text-2xl">
               {hotelInfo.brandName}
             </p>
-            <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.25em] text-muted">
+            <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.22em] text-muted">
               {hotelInfo.slogan}
             </p>
           </div>
-        </a>
+        </Link>
 
-        <nav className="hidden items-center gap-8 text-sm font-bold text-navy/70 md:flex">
-          <a href="#rooms" className="transition hover:text-champagne">
-            Phòng
-          </a>
-          <a href="#offers" className="transition hover:text-champagne">
-            Ưu đãi
-          </a>
-          <a href="#faq" className="transition hover:text-champagne">
-            FAQ
-          </a>
-          <a href="#contact" className="transition hover:text-champagne">
-            Liên hệ
-          </a>
+        <nav className="hidden items-center gap-7 lg:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="text-sm font-bold text-muted transition hover:text-navy"
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="flex shrink-0 items-center gap-2 md:gap-3">
           <a
             href={hotelInfo.zaloLink}
             target="_blank"
-            rel="noopener noreferrer"
-            className="cursor-pointer rounded-full border border-navy/15 bg-white px-5 py-3 text-sm font-black text-navy shadow-sm transition hover:-translate-y-0.5 hover:border-champagne hover:bg-champagne/10 hover:text-navy"
+            rel="noreferrer"
+            className="inline-flex h-11 cursor-pointer items-center justify-center rounded-full border border-navy/10 bg-white px-4 text-sm font-black text-navy shadow-sm transition hover:-translate-y-0.5 hover:border-champagne hover:bg-champagne/10 active:scale-95 md:h-12 md:px-6"
           >
             Chat Zalo
           </a>
 
           <a
             href={`tel:${hotelInfo.hotline}`}
-            className="cursor-pointer rounded-full bg-navy px-5 py-3 text-sm font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf hover:text-white"
+            className="hidden h-11 cursor-pointer items-center justify-center rounded-full bg-navy px-4 text-sm font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95 sm:inline-flex md:h-12 md:px-6"
           >
             Gọi lễ tân
           </a>
         </div>
-
-        <a
-          href={hotelInfo.zaloLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="cursor-pointer rounded-full bg-navy px-4 py-2 text-sm font-black text-white transition hover:bg-leaf md:hidden"
-        >
-          Zalo
-        </a>
       </div>
     </header>
   );
