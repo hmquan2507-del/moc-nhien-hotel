@@ -78,10 +78,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
-        <div className="mt-10 border-t border-navy/10 pt-6 text-center text-sm text-muted">
-          © {new Date().getFullYear()} Mộc Nhiên Hotel. Demo website đặt phòng.
-        </div>
       </div>
     </footer>
   );
