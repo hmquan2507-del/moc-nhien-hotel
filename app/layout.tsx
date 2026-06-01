@@ -71,11 +71,11 @@ export const metadata: Metadata = {
     images: ["/opengraph-image.png"],
   },
 
-  icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
-  },
+ icons: {
+  icon: "/icon",
+  shortcut: "/icon",
+  apple: "/icon",
+},
 
   robots: {
     index: true,
