@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin";
 
 const allowedStatuses = [
   "new",
@@ -16,15 +16,12 @@ export async function PATCH(
   { params }: { params: Promise<{ bookingId: string }> },
 ) {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const admin = await requireAdmin({ redirectTo: false });
 
-    if (!user) {
+    if (!admin.isAdmin) {
       return NextResponse.json(
-        { message: "Vui lòng đăng nhập admin." },
-        { status: 401 },
+        { message: admin.message },
+        { status: admin.status },
       );
     }
 
@@ -46,7 +43,7 @@ export async function PATCH(
       );
     }
 
-    const { error } = await supabase
+    const { error } = await admin.supabase
       .from("bookings")
       .update({ status })
       .eq("id", bookingId);
@@ -54,10 +51,7 @@ export async function PATCH(
     if (error) {
       console.error("Could not update booking status", error);
 
-      return NextResponse.json(
-        { message: "Không cập nhật được trạng thái." },
-        { status: 500 },
-      );
+      return NextResponse.json({ message: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ message: "Đã cập nhật trạng thái." });

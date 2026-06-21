@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import BookingStatusActions from "@/components/admin/BookingStatusActions";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin";
 
 type Booking = {
   id: string;
@@ -10,6 +9,16 @@ type Booking = {
   guest_phone: string | null;
   guest_email: string | null;
   room_type_name: string | null;
+  room_types:
+    | {
+        name: string | null;
+        code: string | null;
+      }
+    | {
+        name: string | null;
+        code: string | null;
+      }[]
+    | null;
   check_in: string | null;
   check_out: string | null;
   checkin_time: string | null;
@@ -59,23 +68,33 @@ function formatCreatedAt(value: string | null) {
   }).format(new Date(value));
 }
 
-export default async function AdminBookingsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+function getRoomTypeName(booking: Booking) {
+  const roomType = Array.isArray(booking.room_types)
+    ? booking.room_types[0]
+    : booking.room_types;
 
-  if (!user) {
-    redirect("/admin/login");
-  }
+  return (
+    booking.room_type_name ||
+    roomType?.name ||
+    roomType?.code ||
+    "-"
+  );
+}
+
+export default async function AdminBookingsPage() {
+  const { supabase } = await requireAdmin();
 
   const { data, error } = await supabase
     .from("bookings")
     .select(
-      "id, created_at, guest_name, guest_phone, guest_email, room_type_name, check_in, check_out, checkin_time, guests, duration, customer_note, status, source",
+      "id, created_at, guest_name, guest_phone, guest_email, room_type_name, room_types(name, code), check_in, check_out, checkin_time, guests, duration, customer_note, status, source",
     )
     .order("created_at", { ascending: false })
     .limit(100);
+
+  if (error) {
+    console.error("Could not load bookings", error);
+  }
 
   const bookings = (data ?? []) as Booking[];
 
@@ -109,7 +128,7 @@ export default async function AdminBookingsPage() {
 
         {error && (
           <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-            Không tải được danh sách đặt phòng. Vui lòng thử lại sau.
+            Không tải được danh sách đặt phòng: {error.message}
           </div>
         )}
 
@@ -152,13 +171,14 @@ export default async function AdminBookingsPage() {
                   <BookingStatusActions
                     bookingId={booking.id}
                     currentStatus={status}
+                    guestPhone={booking.guest_phone}
                   />
                 </div>
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                   <Info label="Số điện thoại" value={booking.guest_phone} />
                   <Info label="Email" value={booking.guest_email} />
-                  <Info label="Loại phòng" value={booking.room_type_name} />
+                  <Info label="Loại phòng" value={getRoomTypeName(booking)} />
                   <Info label="Số khách" value={String(booking.guests ?? "-")} />
                   <Info label="Ngày nhận" value={formatDate(booking.check_in)} />
                   <Info label="Ngày trả" value={formatDate(booking.check_out)} />

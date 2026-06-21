@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import AvailabilityEditor from "@/components/admin/AvailabilityEditor";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin";
 
 type RoomType = {
   id: string;
@@ -10,19 +9,16 @@ type RoomType = {
 };
 
 export default async function AdminAvailabilityPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/admin/login");
-  }
+  const { supabase } = await requireAdmin();
 
   const { data, error } = await supabase
     .from("room_types")
     .select("id, name, code")
     .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Could not load room types for availability", error);
+  }
 
   const roomTypes = (data ?? []) as RoomType[];
 
@@ -57,7 +53,7 @@ export default async function AdminAvailabilityPage() {
 
         {error && (
           <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
-            Không tải được danh sách loại phòng. Vui lòng thử lại sau.
+            Không tải được danh sách loại phòng: {error.message}
           </div>
         )}
 

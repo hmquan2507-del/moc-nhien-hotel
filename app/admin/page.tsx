@@ -1,31 +1,47 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin";
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase } = await requireAdmin();
 
-  if (!user) {
-    redirect("/admin/login");
+  const [newResult, contactedResult, confirmedResult] = await Promise.all([
+    supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "new"),
+    supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "contacted"),
+    supabase
+      .from("bookings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "confirmed"),
+  ]);
+
+  if (newResult.error) {
+    console.error("Could not load new bookings count", newResult.error);
   }
 
-  const { count: newCount } = await supabase
-    .from("bookings")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "new");
+  if (contactedResult.error) {
+    console.error(
+      "Could not load contacted bookings count",
+      contactedResult.error,
+    );
+  }
 
-  const { count: contactedCount } = await supabase
-    .from("bookings")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "contacted");
+  if (confirmedResult.error) {
+    console.error(
+      "Could not load confirmed bookings count",
+      confirmedResult.error,
+    );
+  }
 
-  const { count: confirmedCount } = await supabase
-    .from("bookings")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "confirmed");
+  const errorMessages = [
+    newResult.error?.message,
+    contactedResult.error?.message,
+    confirmedResult.error?.message,
+  ].filter(Boolean);
 
   return (
     <main className="min-h-screen bg-ivory p-4 text-moss sm:p-6">
@@ -33,7 +49,9 @@ export default async function AdminPage() {
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <p className="section-eyebrow">Admin</p>
-            <h1 className="mt-2 text-3xl font-bold">Quản lý Mộc Nhiên Hotel</h1>
+            <h1 className="mt-2 text-3xl font-bold">
+              Quản lý Mộc Nhiên Hotel
+            </h1>
           </div>
 
           <div className="flex gap-3">
@@ -52,10 +70,16 @@ export default async function AdminPage() {
           </div>
         </div>
 
+        {errorMessages.length > 0 && (
+          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+            Không tải được thống kê: {errorMessages.join(" | ")}
+          </div>
+        )}
+
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <StatCard label="Booking mới" value={newCount ?? 0} />
-          <StatCard label="Đã liên hệ" value={contactedCount ?? 0} />
-          <StatCard label="Đã xác nhận" value={confirmedCount ?? 0} />
+          <StatCard label="Booking mới" value={newResult.count ?? 0} />
+          <StatCard label="Đã liên hệ" value={contactedResult.count ?? 0} />
+          <StatCard label="Đã xác nhận" value={confirmedResult.count ?? 0} />
         </div>
       </div>
     </main>

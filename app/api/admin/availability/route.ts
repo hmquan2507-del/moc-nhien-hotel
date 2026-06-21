@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin";
 
 type AvailabilityRequestBody = {
   roomTypeId?: unknown;
@@ -25,15 +25,12 @@ function isValidDateValue(value: string) {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const admin = await requireAdmin({ redirectTo: false });
 
-    if (!user) {
+    if (!admin.isAdmin) {
       return NextResponse.json(
-        { message: "Vui lòng đăng nhập admin." },
-        { status: 401 },
+        { message: admin.message },
+        { status: admin.status },
       );
     }
 
@@ -56,7 +53,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { error } = await supabase.from("availability_overrides").upsert(
+    const { error } = await admin.supabase.from("availability_overrides").upsert(
       {
         room_type_id: roomTypeId,
         date,
@@ -69,10 +66,7 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Could not update availability", error);
-      return NextResponse.json(
-        { message: "Không lưu được tình trạng phòng." },
-        { status: 500 },
-      );
+      return NextResponse.json({ message: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ message: "Đã lưu tình trạng phòng." });
