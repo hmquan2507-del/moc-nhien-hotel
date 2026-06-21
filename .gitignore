@@ -6,3 +6,16 @@ node_modules
 dist
 build
 .DS_Store
+references/
+.chrome-profile/
+.next-dev.*
+responsive-*.png
+public/images/exterior-front.jpg
+public/images/exterior-main.jpg
+public/images/garden.jpg
+public/images/hallway.jpg
+public/images/lobby.jpg
+public/images/lobby.webp
+public/images/logo.png
+public/images/room-door.jpg
+public/images/room-table.jpg

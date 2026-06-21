@@ -341,7 +341,7 @@ function LoginScreen({
           <div className="bg-[#0D2F28] px-6 py-9 text-center text-white">
             <div className="mx-auto flex h-20 w-20 items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-white">
               <img
-                src="/images/moc-nhien-logo.png"
+                src="/images/hotel/logo.png"
                 alt="Mộc Nhiên Hotel"
                 className="h-full w-full object-contain p-2"
               />
@@ -404,7 +404,7 @@ function AdminSidebar() {
         <div className="flex items-center gap-3">
           <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white">
             <img
-              src="/images/moc-nhien-logo.png"
+              src="/images/hotel/logo.png"
               alt="Mộc Nhiên Hotel"
               className="h-full w-full object-contain p-1.5"
             />
@@ -454,7 +454,7 @@ function AdminTopbar({ onLogout }: { onLogout: () => void }) {
         <div className="flex min-w-0 items-center gap-3 xl:hidden">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#0D2F28]/10 bg-white shadow-sm">
             <img
-              src="/images/moc-nhien-logo.png"
+              src="/images/hotel/logo.png"
               alt="Mộc Nhiên Hotel"
               className="h-full w-full object-contain p-1.5"
             />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -13,69 +14,58 @@ const playfair = Playfair_Display({
 });
 
 const siteUrl = "https://moc-nhien-hotel.vercel.app";
+const title = "Mộc Nhiên Hotel | Khách sạn tiện nghi tại Đà Nẵng";
+const description =
+  "Khách sạn Mộc Nhiên với không gian sạch sẽ, vị trí thuận tiện, hỗ trợ đặt phòng nhanh tại Đà Nẵng.";
+const ogImage = "/images/hotel/exterior-main.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-
- title: {
-  default: "Mộc Nhiên Hotel",
-  template: "%s | Mộc Nhiên Hotel",
-},
-
-  description:
-    "Mộc Nhiên Hotel tại Liên Chiểu, Đà Nẵng. Xem phòng, chọn thời lượng lưu trú, xem giá tạm tính và đặt phòng nhanh qua Zalo hoặc điện thoại.",
-
+  title: {
+    default: title,
+    template: "%s | Mộc Nhiên Hotel",
+  },
+  description,
   keywords: [
     "Mộc Nhiên Hotel",
-    "khách sạn Liên Chiểu",
     "khách sạn Đà Nẵng",
+    "khách sạn Liên Chiểu",
     "khách sạn Hòa Khánh",
-    "khách sạn gần Hòa Khánh",
     "đặt phòng khách sạn Đà Nẵng",
-    "khách sạn giá tốt Đà Nẵng",
-    "nhà nghỉ Liên Chiểu",
-    "khách sạn thuê giờ Đà Nẵng",
   ],
-
   authors: [{ name: "Mộc Nhiên Hotel" }],
   creator: "Mộc Nhiên Hotel",
   publisher: "Mộc Nhiên Hotel",
-
   alternates: {
     canonical: siteUrl,
   },
-
   openGraph: {
-    title: "Mộc Nhiên Hotel | Đặt phòng nhanh tại Liên Chiểu, Đà Nẵng",
-    description:
-      "Xem phòng, chọn thời lượng lưu trú, xem giá tạm tính và đặt phòng nhanh qua Zalo hoặc điện thoại.",
+    title,
+    description,
     url: siteUrl,
     siteName: "Mộc Nhiên Hotel",
     locale: "vi_VN",
     type: "website",
     images: [
       {
-        url: "/opengraph-image.png",
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: "Mộc Nhiên Hotel - Khách sạn tại Liên Chiểu, Đà Nẵng",
+        alt: "Mặt tiền Mộc Nhiên Hotel tại Đà Nẵng",
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
-    title: "Mộc Nhiên Hotel | Đặt phòng nhanh tại Đà Nẵng",
-    description:
-      "Xem phòng, chọn thời lượng lưu trú, xem giá tạm tính và đặt phòng nhanh qua Zalo hoặc điện thoại.",
-    images: ["/opengraph-image.png"],
+    title,
+    description,
+    images: [ogImage],
   },
-icons: {
-  icon: "/favicon.png",
-  shortcut: "/favicon.png",
-  apple: "/favicon.png",
-},
-
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   robots: {
     index: true,
     follow: true,
@@ -87,20 +77,17 @@ icons: {
       "max-video-preview": -1,
     },
   },
-
   category: "hotel",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="vi">
-      <body className={`${inter.variable} ${playfair.variable}`}>
-        {children}
-      </body>
+      <body className={`${inter.variable} ${playfair.variable}`}>{children}</body>
     </html>
   );
 }

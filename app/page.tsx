@@ -1,15 +1,13 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import BookingSearch from "@/components/BookingSearch";
-import Benefits from "@/components/Benefits";
-import Rooms from "@/components/Rooms";
-import Experience from "@/components/Experience";
-import Offers from "@/components/Offers";
-import Testimonials from "@/components/Testimonials";
-import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
+import AboutSection from "@/components/AboutSection";
+import AmenitiesSection from "@/components/AmenitiesSection";
+import BookingBar from "@/components/BookingBar";
+import ContactCta from "@/components/ContactCta";
 import Footer from "@/components/Footer";
-import MobileCTA from "@/components/MobileCTA";
+import GallerySection from "@/components/GallerySection";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import MobileStickyCta from "@/components/MobileStickyCta";
+import RoomsSection from "@/components/RoomsSection";
 import { getValidDuration } from "@/data/site";
 
 type HomeProps = {
@@ -23,19 +21,17 @@ export default async function Home({ searchParams }: HomeProps) {
   const duration = getValidDuration(params.duration);
 
   return (
-    <main className="min-h-screen bg-cream pb-24 text-navy md:pb-0">
+    <main className="min-h-screen bg-ivory pb-24 text-moss md:pb-0">
       <Header />
-      <Hero />
-      <BookingSearch duration={duration} />
-      <Rooms duration={duration} />
-      <Benefits />
-      <Experience />
-      <Offers />
-      <Testimonials />
-      <FAQ />
-      <Contact />
+      <HeroSection />
+      <BookingBar />
+      <AboutSection />
+      <RoomsSection duration={duration} />
+      <AmenitiesSection />
+      <GallerySection />
+      <ContactCta />
       <Footer />
-      <MobileCTA />
+      <MobileStickyCta />
     </main>
   );
 }

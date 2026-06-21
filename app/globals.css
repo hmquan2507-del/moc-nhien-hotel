@@ -1,19 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #fffcf5;
-  --color-champagne: #c99a4a;
-  --color-navy: #12332b;
-  --color-softbeige: #f3ebdd;
-  --color-muted: #647067;
+  --color-ivory: #fffaf1;
+  --color-linen: #f7efe3;
+  --color-softbeige: #f1e6d5;
+  --color-moss: #254d3a;
+  --color-forest: #18372b;
+  --color-olive: #657264;
+  --color-wood: #3a271d;
+  --color-gold: #b88938;
+  --color-softgold: #d8b46d;
+
+  --color-cream: #fffaf1;
+  --color-champagne: #b88938;
+  --color-navy: #254d3a;
+  --color-muted: #657264;
   --color-leaf: #2f6f4e;
 
   --shadow-soft: 0 20px 60px rgba(18, 51, 43, 0.1);
 }
 
 :root {
-  --background: #fffcf5;
-  --foreground: #12332b;
+  --background: #fffaf1;
+  --foreground: #254d3a;
 }
 
 * {
@@ -29,6 +38,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 button,
@@ -43,8 +53,8 @@ select {
 }
 
 ::selection {
-  background: #c99a4a;
-  color: #12332b;
+  background: #d8b46d;
+  color: #18372b;
 }
 html,
 body {
@@ -58,8 +68,75 @@ textarea,
 button {
   font-size: 16px;
 }
+
+.section-eyebrow {
+  color: #b88938;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  color: #254d3a;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.footer-title {
+  color: #d8b46d;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.booking-control {
+  min-height: 52px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 77, 58, 0.14);
+  background: #fffaf1;
+  color: #254d3a;
+  font-weight: 700;
+  outline: none;
+  padding: 0 14px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.booking-control:focus {
+  border-color: #b88938;
+  box-shadow: 0 0 0 3px rgba(184, 137, 56, 0.18);
+  background: #ffffff;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 640px) {
+  .section-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-title {
+    font-size: 3.4rem;
+  }
+}
+
 @media (max-width: 767px) {
   body {
-    padding-bottom: 76px;
+    padding-bottom: 88px;
   }
 }

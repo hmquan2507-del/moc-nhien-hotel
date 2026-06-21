@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
   DurationKey,
@@ -11,6 +12,13 @@ import {
   hotelInfo,
   rooms,
 } from "@/data/site";
+
+function toDateInputValue(offsetDays: number) {
+  const date = new Date();
+  date.setDate(date.getDate() + offsetDays);
+
+  return date.toISOString().slice(0, 10);
+}
 
 const checkinTimeOptions = [
   "08:00",
@@ -31,15 +39,6 @@ const checkinTimeOptions = [
   "23:00",
 ];
 
-function getTodayDisplayValue() {
-  return new Intl.DateTimeFormat("vi-VN", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date());
-}
-
 export default function BookingFormClient({
   initialRoomId,
   initialDuration,
@@ -51,370 +50,199 @@ export default function BookingFormClient({
   const [selectedDuration, setSelectedDuration] =
     useState<DurationKey>(initialDuration);
 
-  const today = getTodayDisplayValue();
-
   const selectedRoom = useMemo(() => {
     return rooms.find((room) => room.id === selectedRoomId) ?? rooms[0];
   }, [selectedRoomId]);
 
   const currentPrice = selectedRoom.prices[selectedDuration];
-  const oldPrice = selectedRoom.oldPrices[selectedDuration];
   const durationLabel = getDurationLabel(selectedDuration);
 
   return (
-    <main className="min-h-screen bg-cream pb-24 text-navy md:pb-0">
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-navy/10 bg-white/95 shadow-sm backdrop-blur-xl">
-        <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-3 px-4 md:px-8">
+    <main className="min-h-screen bg-ivory pb-24 text-moss md:pb-0">
+      <header className="sticky top-0 z-50 border-b border-moss/10 bg-ivory/95 shadow-sm backdrop-blur-xl">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
           <Link
             href="/"
-            className="flex min-w-0 items-center gap-3 transition hover:opacity-90"
+            className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
             aria-label="Về trang chủ Mộc Nhiên Hotel"
           >
-            <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm">
+            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md border border-moss/10 bg-white shadow-sm">
               <Image
-                src="/images/moc-nhien-logo.png"
-                alt="Mộc Nhiên Hotel"
+                src={hotelInfo.logo.src}
+                alt={hotelInfo.logo.alt}
                 fill
-                className="object-contain p-1.5"
+                sizes="48px"
+                className="object-contain p-1"
                 priority
               />
-            </div>
-
-            <div className="min-w-0">
-              <p className="truncate font-luxury text-xl font-black leading-none text-navy md:text-2xl">
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate font-luxury text-xl font-semibold leading-none text-moss sm:text-2xl">
                 {hotelInfo.brandName}
-              </p>
-
-              <p className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.18em] text-muted md:text-[11px] md:tracking-[0.22em]">
-                Đặt phòng trực tuyến
-              </p>
-            </div>
+              </span>
+              <span className="mt-1 block text-[11px] font-bold uppercase tracking-[0.14em] text-olive">
+                Đặt phòng trực tiếp
+              </span>
+            </span>
           </Link>
 
           <Link
             href="/#rooms"
-            className="hidden rounded-full border border-navy/10 bg-white px-5 py-3 text-sm font-black text-navy shadow-sm transition hover:border-champagne hover:bg-champagne/10 sm:inline-flex"
+            className="hidden min-h-11 items-center justify-center rounded-full border border-moss/15 bg-white px-5 text-sm font-bold text-moss transition-colors hover:border-gold sm:inline-flex"
           >
             Quay lại
           </Link>
         </div>
       </header>
 
-      <div className="h-[76px]" />
-
-      <section className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-14">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-14">
         <div className="mb-7">
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.25em]">
-            Xác nhận đặt phòng
-          </p>
-
-          <h1 className="mt-3 max-w-4xl font-luxury text-4xl font-black leading-tight text-navy md:text-5xl">
-            Hoàn tất thông tin để lễ tân xác nhận phòng.
+          <p className="section-eyebrow">Xác nhận đặt phòng</p>
+          <h1 className="section-title mt-3 max-w-4xl">
+            Gửi thông tin để lễ tân kiểm tra phòng còn trống
           </h1>
-
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-muted md:text-base">
-            Vui lòng kiểm tra loại phòng, thời lượng lưu trú và để lại số điện
-            thoại. Lễ tân sẽ gọi hoặc nhắn Zalo để xác nhận phòng trống và giá
-            chính xác.
+          <p className="mt-4 max-w-2xl text-base leading-8 text-olive">
+            Vui lòng chọn phòng, thời gian lưu trú và để lại số điện thoại.
+            Mộc Nhiên Hotel sẽ liên hệ lại để xác nhận giá và thời gian nhận
+            phòng.
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="order-1 rounded-[2rem] bg-white p-5 shadow-soft md:p-8 lg:order-2">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-champagne md:tracking-[0.22em]">
-              Thông tin khách hàng
-            </p>
-
-            <h2 className="mt-3 font-luxury text-3xl font-black leading-tight md:text-4xl">
-              Nhập thông tin lưu trú
-            </h2>
-
-            <form className="mt-7 grid gap-4">
-              <FormInput
-                label="Họ và tên"
-                placeholder="Ví dụ: Nguyễn Minh Anh"
-              />
-
-              <FormInput
-                label="Số điện thoại"
-                placeholder="Ví dụ: 0789 564 888"
-                type="tel"
-              />
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-black text-navy">
-                    Ngày nhận
-                  </label>
-
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    defaultValue={today}
-                    placeholder="dd/mm/yyyy"
-                    className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition placeholder:text-muted focus:border-champagne"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-black text-navy">
-                    Giờ nhận
-                  </label>
-
-                  <select className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne">
-                    {checkinTimeOptions.map((time) => (
-                      <option key={time} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-black text-navy">
-                    Thời lượng
-                  </label>
-
-                  <select
-                    value={selectedDuration}
-                    onChange={(event) =>
-                      setSelectedDuration(event.target.value as DurationKey)
-                    }
-                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
-                  >
-                    {durationOptions.map((item) => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-black text-navy">
-                    Loại phòng
-                  </label>
-
-                  <select
-                    value={selectedRoomId}
-                    onChange={(event) => setSelectedRoomId(event.target.value)}
-                    className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
-                  >
-                    {rooms.map((room) => (
-                      <option key={room.id} value={room.id}>
-                        {room.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="rounded-[2rem] border border-navy/10 bg-cream p-4">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-black text-navy">Giá tạm tính</p>
-
-                    <p className="mt-1 text-xs leading-6 text-muted">
-                      {selectedRoom.name} • {durationLabel}
-                    </p>
-                  </div>
-
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-muted line-through">
-                      {formatPrice(oldPrice)}
-                    </p>
-
-                    <p className="text-2xl font-black text-navy">
-                      {formatPrice(currentPrice)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-black text-navy">
-                  Yêu cầu đặc biệt
-                </label>
-
-                <textarea
-                  rows={4}
-                  placeholder="Ví dụ: Tôi muốn nhận phòng lúc 20:00, cần phòng yên tĩnh..."
-                  className="w-full resize-none rounded-2xl border border-navy/10 bg-cream px-4 py-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
-                />
-              </div>
-
-              <p className="rounded-2xl bg-cream px-4 py-3 text-center text-xs leading-6 text-muted">
-                Sau khi nhập thông tin, vui lòng kiểm tra lại phòng, thời lượng
-                và giá tạm tính trước khi xác nhận đặt phòng.
-              </p>
-            </form>
-          </section>
-
-          <aside className="order-2 lg:order-1">
-            <div className="sticky top-24 overflow-hidden rounded-[2rem] border border-navy/10 bg-white p-3 shadow-soft">
-              <div className="relative h-64 overflow-hidden rounded-[1.5rem] sm:h-80">
+        <div className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="overflow-hidden rounded-lg border border-moss/10 bg-white p-3 shadow-[0_20px_55px_rgba(40,61,49,0.12)]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-md">
                 <Image
                   src={selectedRoom.image}
-                  alt={selectedRoom.name}
+                  alt={selectedRoom.imageAlt}
                   fill
+                  sizes="(min-width: 1024px) 42vw, 100vw"
                   className="object-cover"
                   priority
                 />
               </div>
-
               <div className="p-4">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.16em] text-champagne">
-                      Phòng đang đặt
-                    </p>
-
-                    <h2 className="mt-2 font-luxury text-3xl font-black leading-tight">
-                      {selectedRoom.name}
-                    </h2>
-                  </div>
-
-                  <div className="shrink-0 rounded-2xl bg-cream px-4 py-3 text-right">
-                    <p className="text-xs font-bold text-muted line-through">
-                      {formatPrice(oldPrice)}
-                    </p>
-
-                    <p className="text-xl font-black text-navy">
-                      {formatPrice(currentPrice)}
-                    </p>
-
-                    <p className="text-xs font-bold text-muted">
-                      {durationLabel}
-                    </p>
-                  </div>
-                </div>
-
-                <p className="mt-4 text-sm leading-7 text-muted">
+                <p className="section-eyebrow">Phòng đang chọn</p>
+                <h2 className="mt-2 font-luxury text-3xl font-semibold leading-tight text-moss">
+                  {selectedRoom.name}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-olive">
                   {selectedRoom.description}
                 </p>
-
-                <div className="mt-5 grid gap-2">
-                  {selectedRoom.features.map((feature) => (
-                    <div
-                      key={feature}
-                      className="flex items-center gap-2 text-sm font-semibold text-navy"
-                    >
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-champagne" />
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl bg-cream p-4">
-                    <p className="text-xs font-bold text-muted">Tình trạng</p>
-                    <p className="mt-1 text-lg font-black">
-                      Còn {selectedRoom.available} phòng
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl bg-cream p-4">
-                    <p className="text-xs font-bold text-muted">Tạm tính</p>
-                    <p className="mt-1 text-lg font-black">
-                      {formatPrice(currentPrice)}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-2xl bg-softbeige p-4">
-                  <p className="text-sm font-black">Chi tiết đặt phòng</p>
-
-                  <div className="mt-3 space-y-2 text-sm leading-6 text-muted">
-                    <p>
-                      Loại phòng:{" "}
-                      <span className="font-black text-navy">
-                        {selectedRoom.name}
-                      </span>
-                    </p>
-
-                    <p>
-                      Thời lượng:{" "}
-                      <span className="font-black text-navy">
-                        {durationLabel}
-                      </span>
-                    </p>
-
-                    <p>
-                      Giá tạm tính:{" "}
-                      <span className="font-black text-navy">
-                        {formatPrice(currentPrice)}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-[2rem] border border-navy/10 bg-cream p-4">
-                  <p className="text-sm font-black text-navy">
-                    Phương thức thanh toán
+                <div className="mt-5 rounded-md bg-ivory p-4">
+                  <p className="text-sm font-bold text-olive">Giá tham khảo</p>
+                  <p className="mt-1 text-3xl font-bold text-moss">
+                    {formatPrice(currentPrice)}
                   </p>
-
-                  <div className="mt-3 grid gap-3">
-                    <label className="flex cursor-pointer items-center gap-3 rounded-2xl bg-white p-4 text-sm font-bold text-navy transition hover:bg-champagne/10">
-                      <input type="radio" name="payment" defaultChecked />
-                      Thanh toán khi nhận phòng
-                    </label>
-
-                    <label className="flex cursor-pointer items-center gap-3 rounded-2xl bg-white p-4 text-sm font-bold text-navy transition hover:bg-champagne/10">
-                      <input type="radio" name="payment" />
-                      Quét mã QR trên ứng dụng ngân hàng
-                    </label>
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-3">
-                  <Link
-                    href={`/booking-success?room=${selectedRoom.id}&duration=${selectedDuration}`}
-                    className="inline-flex h-14 cursor-pointer items-center justify-center rounded-full bg-navy px-6 text-base font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-leaf active:scale-95"
-                  >
-                    Xác nhận đặt phòng
-                  </Link>
-
-                  <a
-                    href={hotelInfo.zaloLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-navy/15 bg-white px-6 py-4 text-center text-base font-black text-navy transition hover:border-champagne hover:bg-champagne/10"
-                  >
-                    Chat Zalo nếu cần hỗ trợ
-                  </a>
-
-                  <p className="text-center text-xs leading-6 text-muted">
-                    Khách sạn sẽ liên hệ lại để xác nhận phòng trống, giá và
-                    thời gian nhận phòng.
+                  <p className="mt-1 text-sm font-semibold text-olive">
+                    {durationLabel}
                   </p>
                 </div>
               </div>
             </div>
           </aside>
+
+          <section className="rounded-lg border border-moss/10 bg-white p-5 shadow-[0_20px_55px_rgba(40,61,49,0.1)] sm:p-7">
+            <form className="grid gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormInput label="Họ và tên" placeholder="Ví dụ: Nguyễn Minh Anh" />
+                <FormInput
+                  label="Số điện thoại"
+                  placeholder="Ví dụ: 0789 564 888"
+                  type="tel"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <FormSelect
+                  label="Loại phòng"
+                  value={selectedRoomId}
+                  onChange={(value) => setSelectedRoomId(value)}
+                >
+                  {rooms.map((room) => (
+                    <option key={room.id} value={room.id}>
+                      {room.name}
+                    </option>
+                  ))}
+                </FormSelect>
+
+                <FormSelect
+                  label="Thời lượng"
+                  value={selectedDuration}
+                  onChange={(value) => setSelectedDuration(value as DurationKey)}
+                >
+                  {durationOptions.map((item) => (
+                    <option key={item.value} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </FormSelect>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                <FormDate label="Ngày nhận" defaultValue={toDateInputValue(0)} />
+                <FormDate label="Ngày trả" defaultValue={toDateInputValue(1)} />
+                <FormSelect label="Giờ nhận" defaultValue="14:00">
+                  {checkinTimeOptions.map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </FormSelect>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-bold text-moss">
+                  Yêu cầu thêm
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Ví dụ: Cần phòng yên tĩnh, nhận phòng muộn..."
+                  className="w-full resize-none rounded-md border border-moss/10 bg-ivory px-4 py-4 text-base font-medium text-moss outline-none transition focus:border-gold focus:bg-white focus:ring-4 focus:ring-gold/15"
+                />
+              </div>
+
+              <div className="rounded-md bg-ivory p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-olive">
+                      Giá tham khảo
+                    </p>
+                    <p className="mt-1 text-lg font-bold text-moss">
+                      {selectedRoom.name} / {durationLabel}
+                    </p>
+                  </div>
+                  <p className="text-3xl font-bold text-moss">
+                    {formatPrice(currentPrice)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Link
+                  href={`/booking-success?room=${selectedRoom.id}&duration=${selectedDuration}`}
+                  className="inline-flex min-h-12 items-center justify-center rounded-full bg-moss px-6 text-base font-bold text-white shadow-[0_14px_30px_rgba(37,77,58,0.22)] transition-colors hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                >
+                  Xác nhận đặt phòng
+                </Link>
+                <a
+                  href={hotelInfo.zaloLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-moss/15 bg-white px-6 text-base font-bold text-moss transition-colors hover:border-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                >
+                  Nhắn Zalo hỗ trợ
+                </a>
+              </div>
+
+              <p className="text-center text-sm leading-6 text-olive">
+                Khách sạn sẽ liên hệ lại để xác nhận phòng trống và giá chính
+                xác trước khi giữ phòng.
+              </p>
+            </form>
+          </section>
         </div>
       </section>
-
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-navy/10 bg-white/95 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] pt-3 shadow-[0_-12px_35px_rgba(18,51,43,0.14)] backdrop-blur-xl md:hidden">
-        <div className="mx-auto grid max-w-md grid-cols-2 gap-3">
-          <a
-            href={`tel:${hotelInfo.hotline}`}
-            className="inline-flex h-12 items-center justify-center rounded-full border border-navy/15 bg-white px-4 text-sm font-black text-navy shadow-sm active:scale-95"
-          >
-            Gọi lễ tân
-          </a>
-
-          <a
-            href={hotelInfo.zaloLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-champagne px-4 text-sm font-black text-navy shadow-sm active:scale-95"
-          >
-            Chat Zalo
-          </a>
-        </div>
-      </div>
     </main>
   );
 }
@@ -430,14 +258,59 @@ function FormInput({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-black text-navy">{label}</label>
-
+      <label className="mb-2 block text-sm font-bold text-moss">{label}</label>
       <input
         type={type}
         inputMode={type === "tel" ? "tel" : undefined}
         placeholder={placeholder}
-        className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-medium text-navy outline-none transition placeholder:text-muted focus:border-champagne"
+        className="min-h-12 w-full rounded-md border border-moss/10 bg-ivory px-4 text-base font-medium text-moss outline-none transition focus:border-gold focus:bg-white focus:ring-4 focus:ring-gold/15"
       />
+    </div>
+  );
+}
+
+function FormDate({
+  label,
+  defaultValue,
+}: {
+  label: string;
+  defaultValue: string;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-bold text-moss">{label}</label>
+      <input
+        type="date"
+        defaultValue={defaultValue}
+        className="min-h-12 w-full rounded-md border border-moss/10 bg-ivory px-4 text-base font-bold text-moss outline-none transition focus:border-gold focus:bg-white focus:ring-4 focus:ring-gold/15"
+      />
+    </div>
+  );
+}
+
+function FormSelect({
+  label,
+  children,
+  value,
+  defaultValue,
+  onChange,
+}: {
+  label: string;
+  children: ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-bold text-moss">{label}</label>
+      <select
+        {...(value !== undefined ? { value } : { defaultValue })}
+        onChange={(event) => onChange?.(event.target.value)}
+        className="min-h-12 w-full rounded-md border border-moss/10 bg-ivory px-4 text-base font-bold text-moss outline-none transition focus:border-gold focus:bg-white focus:ring-4 focus:ring-gold/15"
+      >
+        {children}
+      </select>
     </div>
   );
 }
