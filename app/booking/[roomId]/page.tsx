@@ -8,6 +8,9 @@ type BookingPageProps = {
   }>;
   searchParams: Promise<{
     duration?: string;
+    checkin?: string;
+    checkout?: string;
+    guests?: string;
   }>;
 };
 
@@ -25,5 +28,13 @@ export default async function BookingPage({
     notFound();
   }
 
-  return <BookingFormClient initialRoomId={room.id} initialDuration={duration} />;
+  return (
+    <BookingFormClient
+      initialRoomId={room.id}
+      initialDuration={duration}
+      initialCheckIn={query.checkin}
+      initialCheckOut={query.checkout}
+      initialGuests={query.guests}
+    />
+  );
 }

@@ -19,6 +19,24 @@ function toDateInputValue(offsetDays: number) {
   return date.toISOString().slice(0, 10);
 }
 
+function getDateValueOrDefault(value: string | undefined, offsetDays: number) {
+  if (value && !Number.isNaN(new Date(value).getTime())) {
+    return value;
+  }
+
+  return toDateInputValue(offsetDays);
+}
+
+function getGuestsValueOrDefault(value: string | undefined) {
+  const parsedGuests = Number(value);
+
+  if (Number.isFinite(parsedGuests) && parsedGuests >= 1) {
+    return String(parsedGuests);
+  }
+
+  return "2";
+}
+
 const checkinTimeOptions = [
   "08:00",
   "09:00",
@@ -50,9 +68,15 @@ const guestOptions = [
 export default function BookingFormClient({
   initialRoomId,
   initialDuration,
+  initialCheckIn,
+  initialCheckOut,
+  initialGuests,
 }: {
   initialRoomId: string;
   initialDuration: DurationKey;
+  initialCheckIn?: string;
+  initialCheckOut?: string;
+  initialGuests?: string;
 }) {
   const [selectedRoomId, setSelectedRoomId] = useState(initialRoomId);
   const [selectedDuration, setSelectedDuration] =
@@ -61,10 +85,16 @@ export default function BookingFormClient({
   const [guestName, setGuestName] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
-  const [checkIn, setCheckIn] = useState(toDateInputValue(0));
-  const [checkOut, setCheckOut] = useState(toDateInputValue(1));
+  const [checkIn, setCheckIn] = useState(() =>
+    getDateValueOrDefault(initialCheckIn, 0),
+  );
+  const [checkOut, setCheckOut] = useState(() =>
+    getDateValueOrDefault(initialCheckOut, 1),
+  );
   const [checkinTime, setCheckinTime] = useState("14:00");
-  const [guests, setGuests] = useState("2");
+  const [guests, setGuests] = useState(() =>
+    getGuestsValueOrDefault(initialGuests),
+  );
   const [customerNote, setCustomerNote] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -141,7 +171,7 @@ export default function BookingFormClient({
         }),
       });
 
-      const result = (await response.json()) as {
+      const result = (await response.json().catch(() => ({}))) as {
         message?: string;
       };
 

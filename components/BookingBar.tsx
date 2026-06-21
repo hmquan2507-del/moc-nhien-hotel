@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
 import { bookingDefaults } from "@/data/site";
 
+const guestOptions = [
+  { value: "1", label: bookingDefaults.guests[0] ?? "1 khách" },
+  { value: "2", label: bookingDefaults.guests[1] ?? "2 khách" },
+  { value: "3", label: bookingDefaults.guests[2] ?? "3 khách" },
+  { value: "4", label: bookingDefaults.guests[3] ?? "4 khách" },
+  { value: "5", label: bookingDefaults.guests[4] ?? "Gia đình / nhóm" },
+];
+
 function toDateInputValue(offsetDays: number) {
   const date = new Date();
   date.setDate(date.getDate() + offsetDays);
@@ -41,13 +49,11 @@ export default function BookingBar() {
           </BookingField>
 
           <BookingField label="Số khách">
-            <select
-              name="guests"
-              defaultValue="2 khách"
-              className={controlClass}
-            >
-              {bookingDefaults.guests.map((item) => (
-                <option key={item}>{item}</option>
+            <select name="guests" defaultValue="2" className={controlClass}>
+              {guestOptions.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
               ))}
             </select>
           </BookingField>
