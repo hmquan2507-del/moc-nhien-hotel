@@ -3,13 +3,6 @@ import Link from "next/link";
 import { DurationKey, formatPrice, getDurationLabel, rooms } from "@/data/site";
 
 export default function RoomsSection({ duration }: { duration: DurationKey }) {
-  const availableRooms = rooms.reduce(
-    (total, room) => total + room.available,
-    0,
-  );
-  const availableTypes = rooms.filter((room) => room.available > 0).length;
-  const soldOutTypes = rooms.length - availableTypes;
-
   return (
     <section id="rooms" className="bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -143,30 +136,5 @@ export default function RoomsSection({ duration }: { duration: DurationKey }) {
         </div>
       </div>
     </section>
-  );
-}
-
-function StatusMetric({
-  label,
-  value,
-  muted = false,
-}: {
-  label: string;
-  value: string;
-  muted?: boolean;
-}) {
-  return (
-    <div className="rounded-md border border-moss/10 bg-white px-3 py-4 text-center">
-      <p
-        className={`font-luxury text-3xl font-semibold leading-none ${
-          muted ? "text-olive" : "text-moss"
-        }`}
-      >
-        {value}
-      </p>
-      <p className="mt-2 text-[12px] font-bold uppercase tracking-[0.08em] text-olive">
-        {label}
-      </p>
-    </div>
   );
 }
