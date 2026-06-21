@@ -20,6 +20,15 @@ export const hotelInfo = {
   },
 };
 
+export const paymentInfo = {
+  qrImage: {
+    src: "/images/hotel/payment-qr.svg",
+    alt: "Ma QR thanh toan Moc Nhien Hotel",
+  },
+  accountName: "Moc Nhien Hotel",
+  transferNote: "MNH + so dien thoai dat phong",
+};
+
 export const hotelImages = {
   hero: {
     src: "/images/hotel/exterior-main.jpg",

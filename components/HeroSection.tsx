@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import { heroData, hotelImages, trustBadges } from "@/data/site";
 
 export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[680px] overflow-hidden bg-moss pt-18 text-white sm:pt-20 lg:min-h-[760px]"
+      className="relative min-h-[680px] overflow-hidden bg-moss pt-18 text-white sm:pt-20 lg:min-h-[720px]"
     >
       <Image
         src={hotelImages.hero.src}
@@ -37,12 +38,12 @@ export default function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="#booking"
+            <Link
+              href="/booking"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-gold px-7 text-base font-bold text-moss shadow-[0_18px_42px_rgba(0,0,0,0.22)] transition-colors hover:bg-softgold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               {heroData.primaryCta}
-            </a>
+            </Link>
             <a
               href="#rooms"
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/35 bg-white/12 px-7 text-base font-bold text-white backdrop-blur-md transition-colors hover:bg-white/18 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"

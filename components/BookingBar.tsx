@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { bookingDefaults, rooms } from "@/data/site";
+import { bookingDefaults } from "@/data/site";
 
 function toDateInputValue(offsetDays: number) {
   const date = new Date();
@@ -9,22 +9,25 @@ function toDateInputValue(offsetDays: number) {
 }
 
 export default function BookingBar() {
+  const controlClass =
+    "h-13 w-full rounded-xl border border-moss/15 bg-ivory/60 px-4 text-[15px] font-semibold text-moss shadow-sm outline-none transition focus:border-gold focus:bg-white focus:ring-4 focus:ring-gold/10 sm:text-base lg:h-14";
+
   return (
     <section
       id="booking"
-      className="relative z-20 bg-ivory px-4 pb-12 pt-6 sm:px-6 md:-mt-16 md:bg-transparent md:pb-16 md:pt-0 lg:px-8"
+      className="relative z-20 bg-ivory px-4 pb-10 pt-5 sm:px-6 md:-mt-14 md:bg-transparent md:pb-16 md:pt-0 lg:px-8"
     >
       <form
-        action="#contact"
-        className="mx-auto max-w-6xl rounded-lg border border-moss/10 bg-white p-4 shadow-[0_22px_70px_rgba(40,61,49,0.16)] md:p-5"
+        action="/booking"
+        className="mx-auto max-w-5xl rounded-2xl border border-moss/10 bg-white/95 p-4 shadow-[0_24px_70px_rgba(40,61,49,0.14)] backdrop-blur md:p-5 lg:rounded-[26px]"
       >
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-[1fr_1fr_0.85fr_1fr_auto]">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_0.85fr_auto] lg:items-end">
           <BookingField label="Ngày nhận phòng">
             <input
               type="date"
               name="checkin"
               defaultValue={toDateInputValue(0)}
-              className="booking-control"
+              className={controlClass}
             />
           </BookingField>
 
@@ -33,49 +36,29 @@ export default function BookingBar() {
               type="date"
               name="checkout"
               defaultValue={toDateInputValue(1)}
-              className="booking-control"
+              className={controlClass}
             />
           </BookingField>
 
           <BookingField label="Số khách">
-            <select name="guests" defaultValue="2 khách" className="booking-control">
+            <select
+              name="guests"
+              defaultValue="2 khách"
+              className={controlClass}
+            >
               {bookingDefaults.guests.map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>
           </BookingField>
 
-          <BookingField label="Loại phòng">
-            <select
-              name="roomType"
-              defaultValue={rooms[0].name}
-              className="booking-control"
-            >
-              {rooms.map((room) => (
-                <option key={room.id} value={room.name}>
-                  {room.name}
-                </option>
-              ))}
-              {bookingDefaults.roomTypes.slice(3).map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-          </BookingField>
-
-          <div className="flex items-end">
-            <button
-              type="submit"
-              className="min-h-12 w-full rounded-full bg-moss px-7 text-base font-bold text-white shadow-[0_14px_30px_rgba(37,77,58,0.22)] transition-colors hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold lg:min-h-14 lg:w-auto"
-            >
-              Kiểm tra phòng
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="h-13 w-full rounded-xl bg-moss px-8 text-[15px] font-bold text-white shadow-[0_16px_32px_rgba(37,77,58,0.22)] transition hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold lg:h-14 lg:min-w-[168px] lg:rounded-full"
+          >
+            Kiểm tra phòng
+          </button>
         </div>
-
-        <p className="mt-4 rounded-md bg-ivory px-4 py-3 text-sm leading-6 text-olive">
-          Đây là form kiểm tra nhanh. Khách sạn sẽ xác nhận phòng trống và giá
-          chính xác qua điện thoại hoặc Zalo.
-        </p>
       </form>
     </section>
   );

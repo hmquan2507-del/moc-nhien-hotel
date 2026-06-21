@@ -3,7 +3,7 @@ import AmenitiesSection from "@/components/AmenitiesSection";
 import BookingBar from "@/components/BookingBar";
 import ContactCta from "@/components/ContactCta";
 import Footer from "@/components/Footer";
-import GallerySection from "@/components/GallerySection";
+//import GallerySection from "@/components/GallerySection";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import MobileStickyCta from "@/components/MobileStickyCta";
@@ -28,7 +28,6 @@ export default async function Home({ searchParams }: HomeProps) {
       <AboutSection />
       <RoomsSection duration={duration} />
       <AmenitiesSection />
-      <GallerySection />
       <ContactCta />
       <Footer />
       <MobileStickyCta />

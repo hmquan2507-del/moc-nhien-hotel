@@ -1,24 +1,5 @@
 import { DurationKey, durationOptions } from "@/data/site";
 
-const checkinTimeOptions = [
-  "08:00",
-  "09:00",
-  "10:00",
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00",
-  "19:00",
-  "20:00",
-  "21:00",
-  "22:00",
-  "23:00",
-];
-
 function getTodayDisplayValue() {
   return new Intl.DateTimeFormat("vi-VN", {
     timeZone: "Asia/Ho_Chi_Minh",
@@ -28,11 +9,7 @@ function getTodayDisplayValue() {
   }).format(new Date());
 }
 
-export default function BookingSearch({
-  duration,
-}: {
-  duration: DurationKey;
-}) {
+export default function BookingSearch({ duration }: { duration: DurationKey }) {
   const today = getTodayDisplayValue();
 
   return (
@@ -55,24 +32,6 @@ export default function BookingSearch({
               placeholder="dd/mm/yyyy"
               className="h-14 w-full rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition placeholder:text-muted focus:border-champagne"
             />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-black text-navy">
-              Giờ nhận
-            </label>
-
-            <select
-              name="checkinTime"
-              defaultValue="10:00"
-              className="h-14 w-full cursor-pointer rounded-2xl border border-navy/10 bg-cream px-4 text-base font-bold text-navy outline-none transition focus:border-champagne"
-            >
-              {checkinTimeOptions.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
           </div>
 
           <div>
@@ -105,8 +64,8 @@ export default function BookingSearch({
 
         <div className="mt-4 rounded-2xl bg-cream px-4 py-3">
           <p className="text-sm leading-6 text-muted">
-            Chọn ngày, giờ nhận phòng và thời lượng lưu trú để xem giá phòng
-            phù hợp. Giá và tình trạng phòng có thể thay đổi theo thời điểm.
+            Chọn ngày, giờ nhận phòng và thời lượng lưu trú để xem giá phòng phù
+            hợp. Giá và tình trạng phòng có thể thay đổi theo thời điểm.
           </p>
         </div>
       </form>

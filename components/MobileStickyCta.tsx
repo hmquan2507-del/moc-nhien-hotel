@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { hotelInfo } from "@/data/site";
 
 export default function MobileStickyCta() {
@@ -18,12 +19,12 @@ export default function MobileStickyCta() {
         >
           Zalo
         </a>
-        <a
-          href="#booking"
+        <Link
+          href="/booking"
           className="inline-flex min-h-12 min-w-0 items-center justify-center rounded-full bg-moss px-2 text-[12px] font-bold text-white shadow-[0_10px_22px_rgba(37,77,58,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
         >
           Đặt phòng
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -115,6 +115,36 @@ button {
   background: #ffffff;
 }
 
+.booking-input {
+  min-height: 52px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 77, 58, 0.16);
+  background: #fffaf1;
+  color: #254d3a;
+  font-weight: 650;
+  outline: none;
+  padding: 0 14px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.booking-input::placeholder {
+  color: rgba(101, 114, 100, 0.68);
+}
+
+.booking-input:focus {
+  border-color: #b88938;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(184, 137, 56, 0.18);
+}
+
+textarea.booking-input {
+  line-height: 1.6;
+}
+
 a,
 button,
 input,
